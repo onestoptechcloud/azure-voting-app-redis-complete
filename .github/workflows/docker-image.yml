@@ -20,14 +20,7 @@ jobs:
       with:
         # relative path to compose file(s)
         compose-file: ./docker-compose.yml
-    - name: executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
-        script: mkdir deployment
+   
 
     - name: copy file via ssh key
       uses: appleboy/scp-action@v0.1.4
@@ -38,5 +31,16 @@ jobs:
         key: ${{ secrets.KEY }}
         source: "docker-compose.yml"
         target: deployment
+        
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+           cd deployment
+           docker-compose up -d --build
        
       
