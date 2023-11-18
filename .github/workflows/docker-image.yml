@@ -41,6 +41,6 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
            cd deployment
-           docker-compose up -d --build
+           docker compose up -d --build
        
       
